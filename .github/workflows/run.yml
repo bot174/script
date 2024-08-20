@@ -6,24 +6,38 @@ on:
 jobs:
   checks:
     name: "Script"
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - name: Install 7-Zip
-        run: sudo apt-get update && sudo apt-get install -y p7zip-full
+        run: |
+          Invoke-WebRequest -Uri https://www.7-zip.org/a/7z2301-x64.exe -OutFile 7z.exe
+          Start-Process -FilePath .\7z.exe -ArgumentList '/S' -NoNewWindow -Wait
+          Remove-Item -Path .\7z.exe
+
+      - name: Add 7-Zip to PATH
+        run: |
+          $env:PATH += ";C:\Program Files\7-Zip"
+          [System.Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
+
       - run: pip install -r requirements.txt
+
       - name: Extract the archive
         run: |
           mkdir extracted
           7z x uncensored_lib.7z -oextracted/
+
       - name: Run Script
         run: |
           ulimit -v 14680064
           python my_script.py
+
       - name: Create an archive
         run: |
           7z a uncensored_lib.7z extracted/
+
       - uses: EndBug/add-and-commit@v9
