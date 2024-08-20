@@ -6,14 +6,13 @@ file = 'extracted/uncensored_lib.mcstructure'
 def callback():
   print('Done')
 
-with open(file=file, mode='rb+') as io:
+with open(file=file, mode='rb') as io:
   print('Loaded file')
 
   nbt = NBTFile(io=io, little_endian=True)
   print('Loaded NBT')
 
-  pallete = nbt['structure']['palette']['default']
-  block_position_data = pallete['block_position_data']
+  block_position_data = nbt['structure']['palette']['default']['block_position_data']
 
   for index in block_position_data:
     print('Loading block ' + index)
