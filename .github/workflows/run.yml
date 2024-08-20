@@ -19,6 +19,7 @@ jobs:
         run: |
           mkdir extracted
           7z x uncensored_lib.7z -oextracted/
+      - run: ulimit -v 14680064
       - run: python my_script.py
       - name: Create an archive
         run: |
