@@ -32,9 +32,7 @@ jobs:
           7z x uncensored_lib.7z -oextracted/
 
       - name: Run Script
-        run: |
-          ulimit -v 14680064
-          python my_script.py
+        run: python my_script.py
 
       - name: Create an archive
         run: |
