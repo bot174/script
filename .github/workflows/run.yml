@@ -1,0 +1,25 @@
+name: Run Script
+
+on:
+  push:
+
+jobs:
+  checks:
+    name: "Script"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install 7-Zip
+        run: sudo apt-get update && sudo apt-get install -y p7zip-full
+      - name: Extract the archive
+        run: |
+          mkdir extracted
+          7z x uncensored_lib.7z -o extracted/
+      - run: python my_script.py
+      - name: Create an archive
+        run: |
+          7z a uncensored_lib.7z extracted/
+      - uses: EndBug/add-and-commit@v9
