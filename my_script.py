@@ -36,7 +36,15 @@ with open(file=file, mode='rb') as io:
 
     for page in written_book_content['pages']:
       raw = json.loads(page['raw'].value)
-      text = ''.join(raw['extra'])
+      extra: list[str] = raw['extra']
+      text = ''
+
+      for item in extra:
+        if (type(item) == str):
+          text += item
+        else:
+          text += item['text']
+
       page_bedrock = TAG_Compound({
         'photoname': TAG_String(''),
         'text': TAG_String(text)
