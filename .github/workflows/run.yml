@@ -17,7 +17,7 @@ jobs:
       - name: Extract the archive
         run: |
           mkdir extracted
-          7z x uncensored_lib.7z -o extracted/
+          7z x uncensored_lib.7z -oextracted/
       - run: python my_script.py
       - name: Create an archive
         run: |
