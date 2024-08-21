@@ -54,12 +54,8 @@ with open(file=file, mode='rb') as io:
               text += item
             else:
               text += item['text']
-        else:
-          for item in raw:
-            if (type(item) == str):
-              text += item
-            else:
-              text += item['text']
+        elif type(raw) == str:
+          text += raw
 
         page_bedrock = TAG_Compound({
           'photoname': TAG_String(''),
