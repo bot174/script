@@ -56,6 +56,8 @@ with open(file=file, mode='rb') as io:
               text += item['text']
         elif type(raw) == str:
           text += raw
+        else:
+          raise ValueError("Raw prop not handled: " + type(raw) + str(raw))
 
         page_bedrock = TAG_Compound({
           'photoname': TAG_String(''),
@@ -91,7 +93,7 @@ with open(file=file, mode='rb') as io:
         'block_entity_data': TAG_Compound(new_block_entity_data)
       })
     else:
-      new_block_position_data[index] = block_entity_data
+      new_block_position_data[index] = TAG_Compound(block_entity_data.value)
 
   value = {
     'format_version': TAG_Int(1),
