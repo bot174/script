@@ -18,6 +18,7 @@ with open(file=file, mode='rb') as io:
   print('Loaded file')
 
   nbt = NBTFile(io=io, little_endian=True)
+  io = None ## Free memory
   print('Loaded NBT')
 
   block_position_data = nbt['structure']['palette']['default']['block_position_data']
@@ -76,6 +77,5 @@ with open(file=file, mode='rb') as io:
     })
 
     block['block_entity_data'] = new_block_entity_data
-    print(nbt.pretty())
   
   write(nbt)
