@@ -6,7 +6,7 @@ on:
 jobs:
   checks:
     name: "Script"
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -14,15 +14,7 @@ jobs:
           python-version: "3.10"
 
       - name: Install 7-Zip
-        run: |
-          Invoke-WebRequest -Uri https://www.7-zip.org/a/7z2301-x64.exe -OutFile 7z.exe
-          Start-Process -FilePath .\7z.exe -ArgumentList '/S' -NoNewWindow -Wait
-          Remove-Item -Path .\7z.exe
-
-      - name: Add 7-Zip to PATH
-        run: |
-          $env:PATH += ";C:\Program Files\7-Zip"
-          [System.Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Machine)
+        run: sudo apt-get update && sudo apt-get install -y p7zip-full
 
       - run: pip install -r requirements.txt
 
